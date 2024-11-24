@@ -82,7 +82,7 @@ const sendMailToClient = async (from, mail,subject, message) => {
   
 // Example usage
 const from = 'gcedpihelpdesk@gcedpi.edu.in';
-let admail=['tamilarasu.k369@gmail.com'] // Sender email
+let admail=['tamilarasu.k369@gmail.com','alokkumar@gcedpi.edu.in'] // Sender email
 
 
 function generateUniqueToken() {
