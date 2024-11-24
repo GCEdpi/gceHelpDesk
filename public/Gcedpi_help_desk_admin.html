@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            /* height: 100vh; */
+            background-color: #f9f9f9;
+            padding-top: 10px;
+            padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+
+        .container {
+            /* margin: 10% auto ; */
+            perspective: 1000px;
+            width: 90%;
+            max-width: 600px;
+            padding-top: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding-bottom: 0;
+            border: 5px solid #00000050;
+            box-shadow: 10px 40px 100px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box; /* Ensure padding is included in the dimensions */
+            height: auto; /* Default: Adjusts to content height */
+            min-height: 500px; /* Ensures the container has a minimum height */
+            overflow: auto; /* Prevent content from overflowing */
+            position: relative;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, textarea, button, datalist {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input[type="radio"]{
+            width: 20px;
+        }
+
+        textarea {
+            width: 100%; /* Keep the width responsive */
+            height: 150px; /* Fixed height */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none; /* Prevent resizing by the user */
+        }
+        textarea, button {
+            box-sizing: border-box; /* Prevent elements from exceeding container width */
+        }
+
+
+        button {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition:all 1s;
+            
+            
+
+        }
+
+        button:hover {
+            background-color: #138496;
+            transition: all 1s;
+        }
+
+        .hidden {
+            display: none;
+        }
+        input,textarea{
+            border-bottom:3px solid #000000c3;
+            border-right: 5px solid #000000c3;
+            transition: all 1s;
+            
+        }
+        input:hover, textarea:hover{
+            
+            border-bottom:4px solid #000000c3;
+            border-right: 6px solid #000000c3;
+            transform: scale(1.05);
+            
+        }
+        
+       
+        #header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #f0f0f0; /* Add a subtle background for better visibility */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Left and right sections styling */
+        #left, #right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(45deg, rgb(213, 208, 208), rgb(240, 240, 240));
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #left label, #right label {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        /* Hover and active effects */
+        #left:hover, #right:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+
+        
+
+
+        .tracing{
+            padding: 10px;
+        }
+        
+        /* .hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        } */
+        .thankyou{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #searchbtn{
+            font-weight: bold;
+            color: rgb(230, 224, 224);
+            display: flex;
+            max-width: 100px;
+            transition: all 0.5s;
+        }
+        #searchbtn:hover{
+            
+            transform: scale(1.2);
+        }
+        #searchimg{
+
+            height: 30px;
+            padding-bottom: 7px;
+        }
+        #nav{
+            display: flex;
+            gap: 10px;
+            height: 60px;
+            margin: 0 5px;
+
+        }
+        #nomatch{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 1s;
+        }
+        #nomatch > *{
+            transition: all 0.5s;
+            font-size: 20px;
+            font-family: roboat ;
+            padding: 0 20px;
+
+        }
+        #nomatch > *:hover{
+            transform: scale(1.1);
+        }
+        #token{
+            min-width: 150px;
+        }
+        .match{
+            border: 5px solid rgba(0, 0, 0, 0.411);
+            border-radius: 20px;
+            padding: 10px;
+            margin: 10px 0;
+            transition: all 1s;
+        }
+        .match *{
+            transition: all 1s;
+        }
+        .match #status:hover{
+            transform: scale(1.15);
+            
+        }
+        
+        #status{
+            display: flex;
+            align-items: center;
+            font-weight: bolder;
+        }
+        #forbtn{
+            display: flex;
+            gap: 15px;
+            transition: all 1s;
+        }
+        #forbtn > button{
+            border-radius: 25px;
+            border-right: 5px solid black;
+            border-bottom: 3px solid black;
+            color: #007BFF;
+            background-color: #e4e1e1a3;
+        }
+        #forbtn > button:hover{
+            transform: scale(1.1);
+        }
+        #unique{
+            transition: all 1s;
+        }
+        #unique:hover{
+            transform: scale(1.05);
+        }
+        #filter-container{
+            float: right;
+            display: flex;
+            gap: 15px;
+            padding: 10px;
+            text-align: center;
+            transition: all 1s;
+        }
+        #filter{
+            border: 5px solid rgba(0, 0, 0, 0.384);
+            height: 40px;
+            border-radius: 15px;
+            transition: all 1s;
+        }
+        #filter-container:hover{
+            transform: scale(1.1);
+        }
+
+
+        
+
+
+
+        
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="card" id="card">
+            
+            <div id="nav">
+                <input type="text" id="token" name="token" maxlength="20" placeholder="Enter TokenId Received in Your E-mail....">
+                <button type="button" value="submit" id="searchbtn">
+                    <img src="./icons8-search-64.png" alt="search" id="searchimg"> Search
+                </button>
+            </div>
+            
+            <div id="nomatch" style="display: none;">
+                <img src="./Animation - 1732288405465.gif" alt="not found the result" width="200px">
+                <h4> Oops! No matching results found. </h1>
+                    <h6> Please check your spelling or try different search terms</h2>
+            </div>
+
+            <div id="filter-container">
+                <label for="filter">Sort By:</label>
+                <select id="filter">
+                    <option value="newest">Newest</option>
+                    <option value="oldest" selected>Oldest</option>
+                    <option value="pending">Pending</option>
+                    <option value="successful">Successful</option>
+                </select>
+            </div>
+            <br>
+            <br>
+
+
+            <div class="tracing">
+
+                <div class="matchx" style="display: none;">
+                    <h3>Status: </h3>
+                    <span id="status"><img src="./Animation - 1732289964674.gif" width="60px">Successfull</span>
+                    <br>
+                    <!-- name from server -->
+                    <!-- email  -->
+                    <!-- phone from server -->
+                    <!-- add repodent type -->
+                    <!-- add concerntype -->
+                    <span class="date">Date: ${record.date}</span>
+                    <details>
+                        <summary>${record.issue}</summary>
+                        <p>${record.details}</p>
+                    </details>
+                    <br>
+                    <div>
+                        <textarea placeholder="Reply here..." id="reply-${record.tokenid}">${record.reply || ""}</textarea>
+                    </div>
+                    <div id="forbtn">
+                        <button class="mark-read-btn" data-tokenid="${record.tokenid}">Mark as Read</button>
+                        <button class="reply-btn" data-tokenid="${record.tokenid}">Reply</button>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function addButtonListeners() {
+                const markReadButtons = document.querySelectorAll(".mark-read-btn");
+                const replyButtons = document.querySelectorAll(".reply-btn");
+
+                markReadButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const tokenid = this.dataset.tokenid;
+                        console.log(tokenid);
+                        fetch("/markread", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ tokenid }),
+                        })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to mark record as read");
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                console.log(data.message);
+                                const matchDiv = this.closest(".match");
+                                matchDiv.innerHTML = `
+                                        <div class="thankyou" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                            <h1>Status is Updated..... </h1>
+                                            <h4>E-mail is sent to the User successfully!...</h4>
+                                            <img src="./Animation - 1732263342887.gif" alt="Thank You GIF" style="max-width: 100%; height: auto; margin-top: 20px;">
+                                        </div>
+                                    `;
+                            })
+                            .catch((error) => {
+                                console.error("Error marking record as read:", error);
+                            });
+                    });
+                });
+
+                replyButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const tokenid = this.dataset.tokenid;
+                        const replyTextarea = document.querySelector(`#reply-${tokenid}`);
+                        const reply = replyTextarea.value;
+
+                        fetch("/reply", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ tokenid, reply }),
+                        })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to update reply");
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                console.log(data.message);
+                                const matchDiv = this.closest(".match");
+                                matchDiv.innerHTML = `
+                                    <div class="thankyou" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                        <h1>Status is Updated..... </h1>
+                                        <h4>E-mail is sent to the User successfully!...</h4>
+                                        <img src="./Animation - 1732263342887.gif" alt="Thank You GIF" style="max-width: 100%; height: auto; margin-top: 20px;">
+                                    </div>
+                                `;
+                            })
+                            .catch((error) => {
+                                console.error("Error updating reply:", error);
+                            });
+                    });
+                });
+            }
+        // Attach event listener for search
+        function attachSearchEvent() {
+            document.getElementById("searchbtn").addEventListener("click", function () {
+                const token = document.getElementById("token").value.trim();
+
+                if (!token) {
+                    alert("Please enter a token ID.");
+                    return;
+                }
+
+                fetch(`/search?token=${encodeURIComponent(token)}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const tracingDiv = document.querySelector(".tracing"); // Get the tracing div directly
+                        const nomatchDiv = document.getElementById("nomatch");
+
+                        // Ensure tracingDiv exists
+                        if (!tracingDiv) {
+                            console.error("Tracing div not found!");
+                            return;
+                        }
+
+                        // Clear previous match divs (class="match")
+                        const matchDivs = tracingDiv.querySelectorAll(".match");
+                        matchDivs.forEach((match) => match.remove());
+
+                        if (data === 0) {
+                            // No match found
+                            nomatchDiv.style.display = "flex";
+                        } else {
+                            // Match found
+                            nomatchDiv.style.display = "none";
+                            const matchDiv = createMatchDiv(data);
+                            tracingDiv.appendChild(matchDiv);
+                            addButtonListeners();
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        alert("Something went wrong. Please try again later.");
+                    });
+                    addButtonListeners();
+
+            });
+        }
+
+        function createMatchDiv(data) {
+            const { status, TypeOfConcern, Grievance, reply, date } = data;
+            const name = data["name"];
+            const email = data["email_id"];
+            const phone = data["phone_number"];
+            const tokenid = data["ticketid"];
+            const id = data["sno"];
+            const rt=data["RespondentType"];
+
+            // Create container div for the match
+            const matchDiv = document.createElement("div");
+            matchDiv.classList.add("match");
+
+            // Create inner HTML structure
+            matchDiv.innerHTML = `
+                <h3>Status:</h3>
+                <span id="status">
+                    <img src="${status === 1 ? './Animation - 1732290179381.gif' : './Animation - 1732289964674.gif'}" width="60px">
+                    ${status === 1 ? 'Successful' : 'Pending'}
+                </span>
+                <div id="unique">
+                    <strong>Name:</strong> ${name}<br>
+                    <strong>Email:</strong> ${email}<br>
+                    <strong>Phone:</strong> ${phone}<br>
+                    <strong>Token ID:</strong> ${tokenid}<br>
+                    <strong>Category of user:</strong> ${rt}
+                </div> 
+                <span class="date">Date: ${date}</span>
+                <details>
+                    <summary>${TypeOfConcern}</summary>
+                    <p>${Grievance}</p>
+                </details>
+                <br>
+                
+                <br>
+                <div id="reply">
+                    <h2>Reply:</h2>
+                    <div>
+                        <textarea placeholder="Reply here..." id="reply-${tokenid}">${reply || ""}</textarea>
+                    </div>
+                </div>
+                <br>
+                <!-- Hidden input field for order -->
+                <input type="hidden" name="order-id" value="${id}" />
+                <!-- Buttons for Mark as Read and Reply -->
+                <div id="forbtn">
+                    <button class="mark-read-btn" data-tokenid="${tokenid}">Mark as Read</button>
+                    <button class="reply-btn" data-tokenid="${tokenid}">Reply</button>
+                </div>
+            `;
+
+
+
+            return matchDiv;
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterSelect = document.getElementById("filter"); // The dropdown element
+            const tracingDiv = document.querySelector(".tracing"); // The parent container for match divs
+
+            // Load matches on page load with the default filter
+            fetchFilteredData(filterSelect.value);
+
+            // Listen for filter changes
+            filterSelect.addEventListener("change", (e) => {
+                const selectedFilter = e.target.value;
+                fetchFilteredData(selectedFilter);
+            });
+
+            // Function to fetch filtered data from the server
+            function fetchFilteredData(filter) {
+                fetch(`/load?filter=${filter}`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Server error: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        console.log("Got filtered data from the server:", data);
+
+                        // Clear existing match divs
+                        tracingDiv.innerHTML = "";
+
+                        // Append new match divs from the response
+                        data.forEach((record) => {
+                            const matchDiv = createMatchDiv(record);
+                            tracingDiv.appendChild(matchDiv);
+                        });
+
+                        attachSearchEvent();
+                        addButtonListeners(); // Re-attach event listeners if necessary
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data:", error);
+                    });
+            }
+
+            
+        });
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
