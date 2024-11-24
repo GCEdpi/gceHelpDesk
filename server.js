@@ -296,7 +296,7 @@ app.post('/contact', (req, res) => {
                     <h2>Details of Your Concern:</h2>
                     <p><strong>Type of Concern:</strong> ${type_of_concern}</p>
                     <p><strong>Grievance:</strong> ${grievance}</p>
-                    <p>Your Token ID is: <span class="token">${token}</span>. Use it to track your application status at <a href="https://gcedpi.edu.in/" target="_blank">our website</a>.</p>
+                    <p>Your Token ID is: <span class="token">${token}</span>. Use it to track your application status at <a href="https://gcehelpdesk.onrender.com" target="_blank">our website</a>.</p>
                     <p>Thank you for your patience and understanding. If you have any additional questions, feel free to reach out to us at any time.</p>
                 </div>
                 <div class="email-footer">
@@ -390,7 +390,7 @@ app.post('/contact', (req, res) => {
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;A new inquiry has been submitted by <strong>${name}</strong> (Email: <strong>${email_id}</strong>).</p>
                     <h2>Token ID:</h2>
                     <p><span class="highlight">${token}</span></p>
-                    <p>Use it to address the issue via the following link: <a href="https://gcedpi.edu.in/" target="_blank">Track Inquiry</a>.</p>
+                    <p>Use it to address the issue via the following link: <a href="https://gcehelpdesk.onrender.com/Gcedpi_help_desk_admin.html" target="_blank">Track Inquiry</a>.</p>
                     <h2>Details of the Inquiry:</h2>
                     <p>${body}</p>
                 </div>
