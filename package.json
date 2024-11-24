@@ -1,0 +1,17 @@
+{
+  "name": "project_helpdesk",
+  "version": "1.0.0",
+  "description": "GCE dpi help desk",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Tamil",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.9.16"
+  }
+}
