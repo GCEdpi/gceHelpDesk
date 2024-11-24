@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpDesk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            /* height: 100vh; */
+            background-color: #f9f9f9;
+            padding-top: 10px;
+            padding-bottom: 20px;
+        }
+
+        .container {
+            /* margin: 10% auto ; */
+            perspective: 1000px;
+            width: 80%;
+            max-width: 600px;
+            padding-top: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding-bottom: 0;
+            border: 5px solid #00000050;
+            box-shadow: 10px 40px 100px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box; /* Ensure padding is included in the dimensions */
+            height: auto; /* Default: Adjusts to content height */
+            min-height: 500px; /* Ensures the container has a minimum height */
+            overflow: auto; /* Prevent content from overflowing */
+            position: relative;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, textarea, button, datalist {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input[type="radio"]{
+            width: 20px;
+        }
+
+        textarea {
+            width: 100%; /* Keep the width responsive */
+            height: 150px; /* Fixed height */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none; /* Prevent resizing by the user */
+        }
+        textarea, button {
+            box-sizing: border-box; /* Prevent elements from exceeding container width */
+        }
+
+
+        button {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition:all 1s;
+            
+            
+
+        }
+
+        button:hover {
+            background-color: #138496;
+            transition: all 1s;
+        }
+
+        .hidden {
+            display: none;
+        }
+        input,textarea{
+            border-bottom:3px solid #000000c3;
+            border-right: 5px solid #000000c3;
+            transition: all 1s;
+            
+        }
+        input:hover, textarea:hover{
+            
+            border-bottom:4px solid #000000c3;
+            border-right: 6px solid #000000c3;
+            transform: scale(1.05);
+            
+        }
+        .form, .tracing {
+            transition: transform 0.5s linear; /* Smooth scale effect */
+            backface-visibility: hidden; 
+            /* position: absolute; */
+            width: 100%;
+            height: 100%;
+        }
+        .tracing {
+            transform: rotateY(180deg); /* Initially flipped */
+        }
+
+        
+        
+       
+        #header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #f0f0f0; /* Add a subtle background for better visibility */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Left and right sections styling */
+        #left, #right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(45deg, rgb(213, 208, 208), rgb(240, 240, 240));
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #left label, #right label {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        /* Hover and active effects */
+        #left:hover, #right:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+
+        /* Selected state styling */
+        input[type="radio"]:checked + label {
+            font-weight: bold;
+            background-color: #f9f9f9;
+
+            color: #007BFF; /* Highlight selected option */
+        }
+
+        .card {
+            border: none;
+            width: 100%;
+            height: auto;
+            transform-style: preserve-3d; /* Enable 3D transformations */
+            transition: transform 0.8s; /* Smooth rotation */
+            position: relative;
+        }
+        /* .hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        } */
+        .thankyou{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #searchbtn{
+            font-weight: bold;
+            color: rgb(230, 224, 224);
+            display: flex;
+            max-width: 100px;
+            transition: all 0.5s;
+        }
+        #searchbtn:hover{
+            
+            transform: scale(1.2);
+        }
+        #searchimg{
+            height: 30px;
+            padding-bottom: 7px;
+        }
+        #nav{
+            display: flex;
+            gap: 10px;
+            height: 50px;
+
+        }
+        #nomatch{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 1s;
+        }
+        #nomatch > *{
+            transition: all 0.5s;
+            font-size: 20px;
+            font-family: roboat ;
+            padding: 0 20px;
+
+        }
+        #nomatch > *:hover{
+            transform: scale(1.1);
+        }
+        #token{
+            min-width: 150px;
+        }
+        #match{
+            border: 5px solid rgba(0, 0, 0, 0.411);
+            border-radius: 20px;
+            padding: 10px;
+        }
+        #status{
+            display: flex;
+            align-items: center;
+            font-weight: bolder;
+        }
+
+
+        
+
+
+
+        
+
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="left">
+            <input type="radio" id="forform" name="changer" style="display: none;" selected> 
+            <label for="forform">Form</label>
+        </div>
+        <div id="right">
+            <input type="radio" id="trace" name="changer" style="display: none;"> 
+            <label for="trace">Trace</label>
+        </div>
+
+    </div>
+    <div class="container">
+        
+        <div class="card" id="card">
+
+            <div class="thankyou" style="display: none;">
+                <h1>Thank you for your submission!</h1>
+                <p>We appreciate your feedback and will get back to you soon.</p>
+                <h4>A token ID will be sent to your email. Use it to track your request.</h4>
+                <img src="./Animation - 1732263342887.gif" alt="Thank You GIF" style="max-width: 100%; height: auto; margin-top: 20px;">
+
+            </div>
+
+
+            <div class="form" id="formb" style="display: none;">
+                <form id="myform">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" maxlength="20" >
+
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="number" id="phone_number" name="phone_number" maxlength="15" required>
+
+                    <label for="email_id">Email ID:</label>
+                    <input type="email" id="email_id" name="email_id" required>
+
+                    <label for="place">Place:</label>
+                    <input type="text" id="place" name="place" maxlength="20" required>
+
+                    <label for="district">District:</label>
+                    <input type="text" id="district" name="district" maxlength="20" required>
+
+                    <!-- Respondent Type -->
+                    <label for="RespondentType">Respondent Type:</label>
+                    <input list="respondentTypeOptions" id="RespondentType" name="RespondentType" maxlength="20">
+                    <datalist id="respondentTypeOptions">
+                        <option value="Student">
+                        <option value="Professor/Teacher">
+                        <option value="Parent">
+                        <option value="General Public">
+                        <!-- <option value="Others"> -->
+                    </datalist>
+                    
+                    <!-- Type of Concern -->
+                    <label for="TypeOfConcern">Type of Concern:</label>
+                    <input list="concernTypeOptions" id="TypeOfConcern" name="TypeOfConcern" maxlength="30" required>
+                    <datalist id="concernTypeOptions">
+                        <option value="Facilities">
+                        <option value="Harassment">
+                        <option value="Enquiry/Information">
+                        <option value="Academic Issues">
+                        <option value="Technical Problems">
+                        <option value="Financial Issues">
+                        <!-- <option value="Others"> -->
+                    </datalist>
+                    
+                    <label for="Grievance">Grievance:</label>
+                    <textarea id="Grievance" name="Grievance" rows="5" cols="50" maxlength="1000" required></textarea>
+
+                    <button type="submit" id="submit" class="btn btn-outline-info">Submit</button>
+                </form>
+            </div>
+
+            <div class="tracing" >
+
+                <div id="nav"> 
+                    <input type="text" id="token" name="token" maxlength="20" placeholder="Enter TokenId Received in Your E-mail....">
+                    <button type="button" value="submit" id="searchbtn" >
+                        <img src="./icons8-search-64.png" alt="search" id="searchimg"> Search
+                    </button>
+                </div>
+
+                <div id="nomatch" style="display: none;">
+                    <img src="./Animation - 1732288405465.gif" alt="not found the result" width="200px">
+                    <h4> Oops! No matching results found. </h1>
+                    <h6> Please check your spelling or try different search terms</h2>
+                </div>
+
+                <div id="match" style="display: none ;">
+                    <!-- <h5>Status: </h5>
+                    <span id="status"><img src="./Animation - 1732289964674.gif" width="60px">Successfull</span>
+                    <span class="date">Date :22-11-2021</span>
+                    <details>
+                        <summary>Finace issue    </summary>
+                        <p>Reduce fee for exam</p>
+                    </details>
+                    <br>
+                    <div id="reply">
+                        <h2>Reply:</h2>
+                        
+                        <p> We will discuss about with your institution </p>
+                    </div> -->
+
+                </div>
+
+
+                
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        const thankYouElement = document.querySelector('.thankyou');        
+        const forFormRadio = document.getElementById('forform');
+        const traceRadio = document.getElementById('trace');
+        const formDiv = document.getElementById('formb');
+        const tracingDiv = document.querySelector('.tracing');
+        forFormRadio.checked=true;
+        // Add event listeners for the radio buttons
+        forFormRadio.addEventListener('change', () => {
+            if (forFormRadio.checked) {
+                formDiv.style.transform = 'scale(1)';
+                
+                thankYouElement.style.display = 'none';
+                formDiv.style.display = 'block';
+                tracingDiv.style.transform = 'scale(0)'; // Shrink tracing div
+                setTimeout(() => {
+                    tracingDiv.style.display = 'none';
+                }, 500); // Add delay for smooth transition
+            }
+        });
+
+        traceRadio.addEventListener('change', () => {
+            if (traceRadio.checked) {
+                tracingDiv.style.transform = 'scale(1)';
+                tracingDiv.style.display = 'block';
+                thankYouElement.style.display = 'none';
+                formDiv.style.transform = 'scale(0)'; // Shrink form div
+                setTimeout(() => {
+                    formDiv.style.display = 'none';
+                }, 500); // Add delay for smooth transition
+            }
+        });
+        formDiv.style.display = 'block';
+        tracingDiv.style.display = 'none';
+        formDiv.style.transform = 'scale(1)';
+        tracingDiv.style.transform = 'scale(0)';
+         // Wait until the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const formElement = document.getElementById('formb');
+            const thankYouElement = document.querySelector('.thankyou');
+            const form = document.getElementById('myform');
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Collect all input values
+                const formData = {
+                    name: document.getElementById('name').value,
+                    phone_number: document.getElementById('phone_number').value,
+                    email_id: document.getElementById('email_id').value,
+                    place: document.getElementById('place').value,
+                    district: document.getElementById('district').value,
+                    respondent_type: document.getElementById('RespondentType').value,
+                    type_of_concern: document.getElementById('TypeOfConcern').value,
+                    grievance: document.getElementById('Grievance').value,
+                    date:formaldate()
+                };
+
+                // Convert formData to JSON
+                const jsonformData = JSON.stringify(formData);
+                console.log(jsonformData)
+
+                try {
+                    // Send JSON data to the server
+                    const response = await fetch('/contact', { // Replace '/submit' with your server endpoint
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: jsonformData,
+                    });
+
+                    // Handle server response
+                    if (response.ok) {
+                        // If the response is OK, show the thank-you message
+                        formElement.style.display = 'none';
+                        thankYouElement.style.display = 'flex';
+                        form.reset(); // Clear the form fields
+                    } else {
+                        // If the response is not OK, show an alert with the error message
+                        const errorMessage = await response.text(); // Read the error message from the server
+                        alert(`Error: ${errorMessage}`);
+                    }
+                } catch (error) {
+                    // Catch and handle any network or unexpected errors
+                    alert(`Network Error: ${error.message}`);
+                }
+            });
+
+            document.getElementById("searchbtn").addEventListener("click", function () {
+                const token = document.getElementById("token").value.trim();
+                console.log(token);
+
+                if (!token) {
+                    alert("Please enter a token ID.");
+                    return;
+                }
+
+                // Simulate a server request
+                fetch(`/search?token=${encodeURIComponent(token)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear previous results
+                        document.getElementById("nomatch").style.display = "none";
+                        const matchDiv = document.getElementById("match");
+                        matchDiv.innerHTML = ""; // Clear old match data
+                        console.log(typeof data, data);
+                        if (data === 0) {
+                            // No matching result
+                            document.getElementById("nomatch").style.display = "flex";
+                            console.log("with no match block");
+                        } else {
+                            matchDiv.style.display="block";
+                            console.log("with match block 2");
+                            // Extract data from the server response
+                            const { status, TypeOfConcern, Grievance, reply, date } = data;
+
+                            // Create and append content based on the response
+                            matchDiv.innerHTML = `
+                                <h5>Status:</h5>
+                                <span id="status">
+                                    <img src="${status === 1 ? './Animation - 1732290179381.gif' : './Animation - 1732289964674.gif'}" width="60px">
+                                    ${status === 1 ? 'Successful' : 'Pending'}
+                                </span>
+                                <span class="date">Date: ${date}</span>
+                                <details>
+                                    <summary>${TypeOfConcern}</summary>
+                                    <p>${Grievance}</p>
+                                </details>
+                                <br>
+                                <div id="reply">
+                                    <h2>Reply:</h2>
+                                    <p>${reply || 'No reply yet.'}</p>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Something went wrong. Please try again later.");
+                    });
+            });
+
+
+
+        });
+
+
+
+
+        function formaldate(date = new Date()) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based in JS
+            const year = date.getFullYear();
+
+            return `${year}-${month}-${day}`;
+        }
+
+    </script>
+</body>
+</html>
