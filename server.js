@@ -13,7 +13,7 @@ function handleDisconnect() {
     connectionLimit: 1000,
     host: 'sql12.freesqldatabase.com',
     user: 'sql12706859',
-    password: 'sElwkdMRic',
+    password: 'sElwkdMRic', 
     database: 'sql12706859',
     port: 3306
   });
@@ -82,7 +82,7 @@ const sendMailToClient = async (from, mail,subject, message) => {
   
 // Example usage
 const from = 'gcedpihelpdesk@gcedpi.edu.in';
-let admail=['tamilarasu.k369@gmail.com','alokkumar@gcedpi.edu.in'] // Sender email
+let admail=['adminhelpdeskgcedpi@gcedpi.edu.in','alokkumar@gcedpi.edu.in'] // Sender email
 
 
 function generateUniqueToken() {
